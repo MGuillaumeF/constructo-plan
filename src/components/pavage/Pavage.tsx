@@ -5,6 +5,10 @@ interface PavageProps {
   supportWidth: number;
   carreauWidth: number;
   carreauHeight: number;
+  carreauOffsetX: number;
+  carreauOffsetY: number;
+  carreauColor: string;
+  jointColor: string;
   jointWidth: number;
 }
 
@@ -46,14 +50,14 @@ const Pavage = (props: PavageProps) => {
         i === ROWS - 1 && HEIGHT_MIN > 0 ? HEIGHT_MIN : CARREAU_HEIGHT;
       carreaux.push(
         <rect
-          x={JOINT_WIDTH + j * (CARREAU_WIDTH + JOINT_WIDTH)}
-          y={
-            props.supportHeight -
+          x={props.carreauOffsetX + JOINT_WIDTH + j * (CARREAU_WIDTH + JOINT_WIDTH)}
+          y={props.carreauOffsetY + 
+             props.supportHeight -
             carreauHeight -
             (JOINT_WIDTH + i * (CARREAU_HEIGHT + JOINT_WIDTH))
           }
-          fill="#999"
-          stroke="gray"
+          fill={props.carreauColor}
+          stroke={props.jointColor}
           strokeWidth={JOINT_WIDTH}
           width={carreauWidth}
           height={carreauHeight}

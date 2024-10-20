@@ -18,7 +18,7 @@ function Wall({ forreinObjects, ratio, ...props }: WallProps) {
       height={(props.height + (props.strokeWidth ?? 5)) / RATIO}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect fill="blue" stroke="red" strokeWidth={5} {...props} />
+      <rect fill="transparent" stroke="red" strokeWidth={5} {...props} />
       {forreinObjects}
     </svg>
   );

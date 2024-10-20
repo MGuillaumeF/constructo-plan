@@ -7,9 +7,13 @@ import reportWebVitals from "./reportWebVitals";
 
 function App() {
   const [carreau, setCarreau] = useState({
-    carreauWidth: 604,
-    carreauHeight: 300,
-    jointWidth: 3
+    carreauWidth: 700,
+    carreauHeight: 250,
+    carreauOffsetX : 0,
+    carreauOffsetY : 0,
+    jointWidth: 3,
+    carreauColor : "#dedfd9",
+    jointColor : "#AAAAAA"
   });
   const [window, setWindow] = useState({
     height: 950,
@@ -217,6 +221,36 @@ function App() {
               x={FOURTH_WALL_X_OFFSET + door.left}
               y={WALL_HEIGHT - door.height}
             />,
+            // plug
+            <rect
+              fill="white"
+              strokeWidth={1}
+              stroke="black"
+              width={50}
+              height={50}
+              x={0 + 50}
+              y={WALL_HEIGHT - 1_000}
+            />,
+            // plug
+            <rect
+              fill="white"
+              strokeWidth={1}
+              stroke="black"
+              width={50}
+              height={50}
+              x={0 + 100}
+              y={WALL_HEIGHT - 1_000}
+            />,
+            // plug
+            <rect
+              fill="white"
+              strokeWidth={1}
+              stroke="black"
+              width={50}
+              height={50}
+              x={THIRD_WALL_X_OFFSET + 1_000}
+              y={WALL_HEIGHT - 500}
+            />,
             // wall 1
             <rect
               fill="transparent"
@@ -263,7 +297,7 @@ function App() {
       <div className={forms}>
         <form
           className={vertical}
-          onSubmit={(event) => {
+          onChange={(event) => {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
             const copy = { ...carreau };
@@ -276,8 +310,26 @@ function App() {
                   case "carreau_height":
                     copy.carreauHeight = Number(value);
                     break;
+                  case "carreau_offset_x":
+                    copy.carreauOffsetX = Number(value);
+                    break;
+                  case "carreau_offset_y":
+                    copy.carreauOffsetY = Number(value);
+                    break;
+                  case "joint_color":
+                    copy.carreauOffsetY = Number(value);
+                    break;
                   case "joint_width":
                     copy.jointWidth = Number(value);
+                    break;
+                }
+              } else if (typeof value === "string") {
+                switch (key) {
+                  case "carreau_color":
+                    copy.carreauColor = value;
+                    break;
+                  case "joint_color":
+                    copy.jointColor = value;
                     break;
                 }
               }
@@ -309,6 +361,40 @@ function App() {
           <div>
             <input
               type="number"
+              name="carreau_offset_x"
+              id="carreau_offset_x"
+              min={0}
+              max={carreau.carreauWidth - 1}
+              defaultValue={carreau.carreauOffsetX}
+              required
+            />
+            <label htmlFor="carreau_height">Décalage Carreau X (mm)</label>
+          </div>
+          <div>
+            <input
+              type="number"
+              name="carreau_offset_y"
+              id="carreau_offset_y"
+              min={0}
+              max={carreau.carreauHeight - 1}
+              defaultValue={carreau.carreauOffsetY}
+              required
+            />
+            <label htmlFor="carreau_height">Décalage Carreau Y (mm)</label>
+          </div>
+          <div>
+            <input
+              type="color"
+              name="carreau_color"
+              id="carreau_color"
+              defaultValue={carreau.carreauColor}
+              required
+            />
+            <label htmlFor="carreau_color">Couleur du Carreau</label>
+          </div>
+          <div>
+            <input
+              type="number"
               name="joint_width"
               id="joint_width"
               defaultValue={carreau.jointWidth}
@@ -316,12 +402,22 @@ function App() {
             />
             <label htmlFor="joint_width">Épaisseur de joint (mm)</label>
           </div>
+          <div>
+            <input
+              type="color"
+              name="joint_color"
+              id="joint_color"
+              defaultValue={carreau.jointColor}
+              required
+            />
+            <label htmlFor="joint_color">Couleur des joints</label>
+          </div>
 
           <input type="submit" value="Calculer" />
         </form>
         <form
           className={vertical}
-          onSubmit={(event) => {
+          onChange={(event) => {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
             const copy = { ...window };
@@ -406,7 +502,7 @@ function App() {
         </form>
         <form
           className={vertical}
-          onSubmit={(event) => {
+          onChange={(event) => {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
             const copy = { ...door };
@@ -476,7 +572,7 @@ function App() {
         </form>
         <form
           className={vertical}
-          onSubmit={(event) => {
+          onChange={(event) => {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
             const copy = { ...walls };
